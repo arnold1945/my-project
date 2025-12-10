@@ -5,9 +5,13 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status as s
-from .serializers import ClientSerializer, Token
-# Create your views here.
+from .serializers import ClientSerializer
+from rest_framework.authtoken.models import Token
 
+# Create your views here.
+class UserPermission(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 class Sign_Up(APIView):
     #create/post
@@ -40,15 +44,16 @@ class Log_in(APIView):
             return Response("not a user", status=s.HTTP_404_NOT_FOUND)
 
 
-class Log_out(APIView):
+class Log_out(UserPermission):
     def post(self, request):
-        logout = request.user.auth_token.delete()
-        if logout:
-            return Response(f'{request.user.username} has been logged out', status=s.HTTP_204_NO_CONTENT)
+        try:
+            request.user.auth_token.delete()
+        
+        except:
+            pass
+        return Response('logged out', status=s.HTTP_204_NO_CONTENT)
 
-class UserPermission(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+
 
 class Info(UserPermission):
     def get(self, request):
