@@ -4,11 +4,10 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Client(AbstractUser):
-    
-    name = models.CharField(null=False)
-    email = models.EmailField(null=False, unique=True)
+    email = models.EmailField(unique=True)
+
     USERNAME_FIELD = 'email'
-    password = models.CharField(null=False)
-    #??
-    REQUIRED_FIELDS = [] 
-    
+    REQUIRED_FIELDS = ['username']
+
+    def __str__(self):
+        return self.email
