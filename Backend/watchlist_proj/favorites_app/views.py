@@ -3,13 +3,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 # from rest_framework import status
 from rest_framework import status as s
-
+from django.conf import settings
 from .models import Movie, Show, Favorites
 from user_app.models import Client
 from .serializers import MovieDetailSerializer, MovieListSerializer, ShowDetailSerializer, ShowListSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 import requests
+from rest_framework.permissions import AllowAny
 
 # Create your views here.
 
@@ -25,7 +26,7 @@ class MovieManager(APIView):
     def post(self, request, movie_id=None):
         user_favorites, _ = Favorites.objects.get_or_create(specific_user = request.user) 
         
-        url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=YOUR_API_KEY'
+        url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={settings.MOVIES_API_KEY}'
         response = requests.get(url)
         data = response.json()
         movie, created = Movie.objects.get_or_create(
@@ -73,3 +74,20 @@ class ShowManager(APIView):
         show = get_object_or_404(Show, id=show_id)
         user_favorites.fav_shows.remove(show)
         return Response({'message':'Show removed from favorites'}, status=204)
+
+#for lurkers
+class PublicMovieList(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        movies = Movie.objects.all()
+        serializer = MovieListSerializer(movies, many=True)
+        return Response(serializer.data)
+
+class PublicShowList(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        shows = Show.objects.all()
+        serializer = ShowListSerializer(shows, many=True)
+        return Response(serializer.data)
