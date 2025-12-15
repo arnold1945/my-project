@@ -13,7 +13,7 @@ export default function NavBar() {
         <br></br>
         <Link to = "/movies">Movies</Link>
         <br></br>
-        <Link to = "/Shows">Shows</Link>
+        <Link to = "/shows">Shows</Link>
 
       </div>
     </nav>
