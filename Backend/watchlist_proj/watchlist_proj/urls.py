@@ -16,9 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from favorites_app.views import PublicPopularMovies, PublicPopularShows
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('user_app.urls')),
     path('favorites/', include('favorites_app.urls')),
+    
+    #for the lurkers
+    path('movies/popular/', PublicPopularMovies.as_view()),
+    path('shows/popular/', PublicPopularShows.as_view()),
 ]

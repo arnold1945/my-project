@@ -75,8 +75,8 @@ class ShowManager(APIView):
         user_favorites.fav_shows.remove(show)
         return Response({'message':'Show removed from favorites'}, status=204)
 
-#for lurkers
-class PublicMovieList(APIView):
+#for fave
+class FaveMovieList(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
@@ -84,10 +84,58 @@ class PublicMovieList(APIView):
         serializer = MovieListSerializer(movies, many=True)
         return Response(serializer.data)
 
-class PublicShowList(APIView):
+class FaveShowList(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
         shows = Show.objects.all()
         serializer = ShowListSerializer(shows, many=True)
         return Response(serializer.data)
+
+# for lurkers
+#movies
+class PublicPopularMovies(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        response1 = requests.get(
+            "https://api.themoviedb.org/3/movie/popular",
+            params={"api_key": settings.MOVIES_API_KEY}
+        )
+
+        data = response1.json().get("results", [])
+
+        movies = [
+            {
+                "id": m["id"],
+                "title": m["title"],
+                "year": m.get("release_date", "")[:4],
+                "poster": m.get("poster_path"),
+            }
+            for m in data
+        ]
+
+        return Response(movies)
+#shows
+class PublicPopularShows(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        response1 = requests.get(
+            "https://api.tvmaze.com/shows"
+        )
+
+        data = response1.json()
+
+        shows = []
+        for s in data[:20]:  
+            shows.append({
+                "id": s["id"],
+                "title": s["name"],
+                "year": (s.get("premiered") or "")[:4],
+                "poster": (
+                    s.get("image", {}).get("medium")
+                    if s.get("image")
+                    else None
+                ),
+            })
+
+        return Response(shows)
