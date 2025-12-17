@@ -27,6 +27,7 @@ export default function NavBar() {
 
         ): (
           <Link to = "/loginsignup">Login/Signup</Link>
+          
 
         )}
         
