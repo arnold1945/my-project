@@ -3,6 +3,7 @@ import App from "./App.jsx";
 import HomePage from "./components/HomePage.jsx";
 import MoviesPage from "./components/MoviesPage.jsx";
 import ShowsPage from "./components/ShowsPage.jsx";
+import LoginSignup from "./components/LoginSignup.jsx";
 
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
                 path: 'shows',
                 element: <ShowsPage/>,
 
+            },
+            {
+                path: 'loginsignup',
+                element: <LoginSignup/>
             },
         ],
 

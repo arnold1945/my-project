@@ -24,8 +24,8 @@ export default function MoviesPage() {
   }, []);
 
   return (
-    <div>
-      <h1>Movies</h1>
+    <div style={{ padding: '20px', textAlign: 'center' }}>
+      <h1>POPULAR MOVIES</h1>
 
       <ul>
         {movies.map((movie) => (
