@@ -8,7 +8,7 @@ export default function ShowInfo() {
     const [showData, setShowData] = useState(null);
 
     const { id } = useParams();
-
+    // fetching from backend
     useEffect(() => {
         const fetchShow = async () => {
             try {

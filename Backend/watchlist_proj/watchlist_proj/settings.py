@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+##============================================
+# for hiding stuff
 import os
 from dotenv import load_dotenv
-
+# for my .env stuff
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,6 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+##=====================================================================
+# os.getenv is for hiding stuff
 SECRET_KEY = os.getenv("SECRET_KEY")
 MOVIES_API_KEY = os.getenv("MOVIES_API_KEY")
 
@@ -31,7 +35,7 @@ MOVIES_API_KEY = os.getenv("MOVIES_API_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+##===================================================================
 # my notes:
 # to get backend and front end to talk. 
 # pip install django-cors-headers

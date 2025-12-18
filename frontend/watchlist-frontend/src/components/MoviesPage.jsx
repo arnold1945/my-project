@@ -9,6 +9,7 @@ export default function MoviesPage() {
 
   useEffect(() => {
 
+    // fetching from backend
     const getMovies = async () => {
       try{
         const response1 = await axios.get(

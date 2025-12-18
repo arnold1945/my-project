@@ -12,7 +12,7 @@ export default function MovieInfo() {
 
     // for movie id
     const { id } = useParams();
-
+    // fetching from backend
     useEffect(() => {
         const fetchMovie = async () => {
             try {

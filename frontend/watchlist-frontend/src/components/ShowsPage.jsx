@@ -8,7 +8,7 @@ export default function ShowsPage() {
   const [shows, setShows] = useState([]);
 
   useEffect(() => {
-
+    // fetching from backend
     const getShows = async () => {
       try{
         const response1 = await axios.get(
