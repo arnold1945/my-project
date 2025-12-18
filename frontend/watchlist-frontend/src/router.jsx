@@ -6,6 +6,7 @@ import ShowsPage from "./components/ShowsPage.jsx";
 import LoginSignup from "./components/LoginSignup.jsx";
 import ProfilePage from "./components/ProfilePage.jsx";
 import MovieInfo from "./components/MovieInfo.jsx";
+import ShowInfo from "./components/ShowInfo.jsx";
 
 
 const router = createBrowserRouter([
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
             },
             {
                 path: 'movies/:id',
-                element: <MovieInfo/>,
+                element: <MovieInfo/>
+            },
+            {
+                path: 'shows/:id',
+                element: <ShowInfo/>
             },
         ],
 
