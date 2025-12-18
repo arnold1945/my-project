@@ -31,7 +31,8 @@ export default function ShowsPage() {
       <ul>
         {shows.map((show) => (
           <li key={show.id}>
-            {show.title} ({show.year})
+            {/* setting the titles as hyperlinks */}
+           <Link to={`shows/popular/${show.id}`}> {show.title} ({show.year})</Link>
           </li>
         ))}
       </ul>

@@ -1,7 +1,9 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
+import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+
 
 
 // this is where movie details are shown
+
