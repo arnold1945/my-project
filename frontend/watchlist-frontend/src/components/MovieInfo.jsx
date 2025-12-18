@@ -43,16 +43,18 @@ export default function MovieInfo() {
             </h2>
 
             {/* poster */}
+            <div className="flex items-start gap-6">
             {movieData.poster && (
                 <img
                     src={movieData.poster}
                     alt={movieData.title}
-                    className="w-64 my-4"
+                    className="w-64 flex-shrink-0 rounded"
                 />
             )}
 
             {/* description */}
-            <p className="mt-2">{movieData.overview}</p>
+            <p className="leading-relaxed">{movieData.overview}</p>
+        </div>
         </div>
     )
 

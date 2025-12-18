@@ -40,16 +40,22 @@ export default function ShowInfo() {
             </h2>
 
             {/* poster */}
-            {showData.poster && (
-                <img
-                    src={showData.poster}
-                    alt={showData.title}
-                    className="w-64 my-4"
-                />
-            )}
+            <div className="flex items-start gap-6">
+                {showData.poster && (
+                    <img
+                        src={showData.poster}
+                        alt={showData.title}
+                        className="w-64 flex-shrink-0 rounded"
+                    />
+                )}
 
-            {/* description */}
-            <p className="mt-2">{showData.overview}</p>
+                {/* description */}
+                <div
+                    className="leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: showData.overview }}
+                />
+
+            </div>
         </div>
 
 
