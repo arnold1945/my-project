@@ -50,6 +50,7 @@ export default function ShowInfo() {
                 )}
 
                 {/* description */}
+                {/* cleaner look for tvmaze */}
                 <div
                     className="leading-relaxed"
                     dangerouslySetInnerHTML={{ __html: showData.overview }}

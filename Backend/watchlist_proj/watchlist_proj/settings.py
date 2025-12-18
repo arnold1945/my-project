@@ -32,6 +32,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# my notes:
+# to get backend and front end to talk. 
+# pip install django-cors-headers
+# add corsheaders in installed apps
+# add 'corsheaders.middleware.CorsMiddleware', in MIDDLEWARE
+# ^ the middleware thingy should be above all else. see my MIDDLEWARE
+# add CORS_ALLOW_ALL_ORIGINS = True
+
 
 # Application definition
 
