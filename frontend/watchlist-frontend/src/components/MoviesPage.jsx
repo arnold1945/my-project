@@ -31,7 +31,7 @@ export default function MoviesPage() {
         {movies.map((movie) => (
           <li key={movie.id}>
             {/* setting the titles as hyperlinks */}
-            <Link to ={`/movies/popular/${movie.id}`}>{movie.title} ({movie.year})</Link>
+            <Link to ={`/movies/${movie.id}`}>{movie.title} ({movie.year})</Link>
           </li>
         ))}
       </ul>

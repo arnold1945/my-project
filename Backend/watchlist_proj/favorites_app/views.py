@@ -139,3 +139,70 @@ class PublicPopularShows(APIView):
             })
 
         return Response(shows)
+    
+# for public movie details
+class PublicMovieDetail(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, movie_id):
+        url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+        response = requests.get(
+            url,
+            params={"api_key": settings.MOVIES_API_KEY}
+        )
+
+        if response.status_code != 200:
+            return Response(
+                {"error": "Movie not found"},
+                status=response.status_code
+            )
+
+        data = response.json()
+
+        movie = {
+            "id": data["id"],
+            "title": data["title"],
+            "year": data.get("release_date", "")[:4],
+            "overview": data.get("overview"),
+            "poster": (
+                f"https://image.tmdb.org/t/p/w500{data['poster_path']}"
+                if data.get("poster_path")
+                else None
+            ),
+        }
+
+        return Response(movie, status=s.HTTP_200_OK)
+    
+#for public show details
+
+class PublicShowDetail(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, show_id):
+        url = f"https://api.tvmaze.com/shows/{show_id}"
+        response = requests.get(
+            url
+        )
+
+        if response.status_code != 200:
+            return Response(
+                {"error": "Show not found"},
+                status=response.status_code
+            )
+
+        data = response.json()
+
+        show = {
+            "id": data["id"],
+            "title": data["name"],
+            "year": data.get("premiered", "")[:4],
+            "overview": data.get("summary"),
+            "poster": (
+                data.get("image", {}).get("medium")
+                if data.get("image")
+                else None
+                
+            ),
+        }
+
+        return Response(show, status=s.HTTP_200_OK)

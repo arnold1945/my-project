@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from favorites_app.views import PublicPopularMovies, PublicPopularShows
+from favorites_app.views import PublicPopularMovies, PublicPopularShows, PublicMovieDetail, PublicShowDetail
 
 
 urlpatterns = [
@@ -27,4 +27,6 @@ urlpatterns = [
     #for the lurkers
     path('movies/popular/', PublicPopularMovies.as_view()),
     path('shows/popular/', PublicPopularShows.as_view()),
+    path('movies/<int:movie_id>/', PublicMovieDetail.as_view()),
+    path('shows/<int:show_id>/', PublicShowDetail.as_view()),
 ]
