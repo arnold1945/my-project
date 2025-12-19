@@ -7,6 +7,7 @@ import LoginSignup from "./components/LoginSignup.jsx";
 import ProfilePage from "./components/ProfilePage.jsx";
 import MovieInfo from "./components/MovieInfo.jsx";
 import ShowInfo from "./components/ShowInfo.jsx";
+import FavoritesPage from "./components/FavoritesPage.jsx";
 
 
 const router = createBrowserRouter([
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
             {
                 path: 'shows/:id',
                 element: <ShowInfo/>
+            },
+            {
+                path: 'favorites',
+                element: <FavoritesPage/>
             },
         ],
 

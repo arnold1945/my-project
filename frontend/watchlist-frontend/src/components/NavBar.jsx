@@ -21,6 +21,8 @@ export default function NavBar() {
         {/* just setting this up for now. ROUTER NOT SETUP YET FOR THIS */}
         {isAuthenticated ? (
           <>
+          <Link to="/favorites">Favorites</Link>
+          <br></br>
           <Link to="/profile">Profile</Link>
           <button onClick={logout}>Logout</button>
           </>
