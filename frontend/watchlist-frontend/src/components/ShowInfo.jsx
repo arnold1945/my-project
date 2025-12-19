@@ -19,6 +19,8 @@ export default function ShowInfo() {
                 const data = res.data
 
                 const cleaned = {
+                    api_id: data.id,
+                    media_type: "show",
                     title: data.title,
                     year: data.year,
                     overview: data.overview,

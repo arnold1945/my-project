@@ -23,6 +23,8 @@ export default function MovieInfo() {
                 const data = res.data
 
                 const cleaned = {
+                    api_id: data.id,
+                    media_type: "movie",
                     title: data.title,
                     year: data.year,
                     overview: data.overview,
