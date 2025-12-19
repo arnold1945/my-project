@@ -11,10 +11,13 @@ from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 import requests
 from rest_framework.permissions import AllowAny
+from rest_framework.authentication import TokenAuthentication
+
 
 # Create your views here.
 
 class MovieManager(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     
     def get(self, request, movie_id=None):
@@ -46,6 +49,7 @@ class MovieManager(APIView):
         return Response({'message':'Movie removed from favorites'}, status=204)
 
 class ShowManager(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes= [IsAuthenticated]
 
     def get(self,request, show_id=None):
@@ -210,6 +214,7 @@ class PublicShowDetail(APIView):
 # user favorites :(
 # *****
 class UserFavorites(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
