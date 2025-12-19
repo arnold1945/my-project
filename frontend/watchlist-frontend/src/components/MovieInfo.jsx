@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import CardMaker from "./CardMaker";
 
 
 // this is where movie details are shown
@@ -37,25 +38,10 @@ export default function MovieInfo() {
     if (!movieData) return <p>Loading...</p>
 
     return (
-        <div className="p-6">
-            <h2 className="text-2xl font-bold">
-                {movieData.title} ({movieData.year})
-            </h2>
-
-            {/* poster */}
-            <div className="flex items-start gap-6">
-            {movieData.poster && (
-                <img
-                    src={movieData.poster}
-                    alt={movieData.title}
-                    className="w-64 flex-shrink-0 rounded"
-                />
-            )}
-
-            {/* description */}
-            <p className="leading-relaxed">{movieData.overview}</p>
-        </div>
-        </div>
+        <>
+        <h2>{movieData?.title}</h2>
+        {movieData ? <CardMaker cardData={movieData}/>:"Loading..."}
+        </>
     )
 
 }
