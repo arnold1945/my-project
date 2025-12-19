@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import CardMaker from "./CardMaker";
 
 
 export default function ShowInfo() {
@@ -34,30 +35,10 @@ export default function ShowInfo() {
     if (!showData) return <p>Loading...</p>
 
     return (
-        <div className="p-6">
-            <h2 className="text-2xl font-bold">
-                {showData.title} ({showData.year})
-            </h2>
-
-            {/* poster */}
-            <div className="flex items-start gap-6">
-                {showData.poster && (
-                    <img
-                        src={showData.poster}
-                        alt={showData.title}
-                        className="w-64 flex-shrink-0 rounded"
-                    />
-                )}
-
-                {/* description */}
-                {/* cleaner look for tvmaze */}
-                <div
-                    className="leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: showData.overview }}
-                />
-
-            </div>
-        </div>
+        <>
+            <h2>{showData?.title}</h2>
+            {showData ? <CardMaker cardData={showData} /> : "Loading..."}
+        </>
 
 
     )

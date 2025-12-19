@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import { useOutletContext } from "react-router-dom";
 
 
-export default function CardMaker({cardData}) {
+export default function CardMaker({ cardData }) {
 
     const { inFavorites, fave, addToFavorites, removeFromFavorites } = useOutletContext();
     const { title, year, overview, poster } = cardData || {};
@@ -18,9 +18,10 @@ export default function CardMaker({cardData}) {
             <Card.Body>
                 <Card.Title><h3>{title}</h3></Card.Title>
                 <Card.Text>{year}</Card.Text>
-                <Card.Text>
-                    {overview}
-                </Card.Text>
+                <Card.Text
+                    dangerouslySetInnerHTML={{ __html: overview }}
+                />
+
             </Card.Body>
 
             {!inFavorites(cardData) ? (
