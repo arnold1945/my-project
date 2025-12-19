@@ -19,7 +19,7 @@ class MovieManager(APIView):
     
     def get(self, request, movie_id=None):
         if movie_id is not None:
-            movie = get_object_or_404(Movie, id=movie_id)
+            movie = get_object_or_404(Movie, api_id=movie_id)
             serializer = MovieDetailSerializer(movie)
             return Response(serializer.data, status=s.HTTP_200_OK)
     ## this
@@ -41,7 +41,7 @@ class MovieManager(APIView):
         
     def delete(self, request, movie_id=None):
         user_favorites= Favorites.objects.get(specific_user=request.user)
-        movie = get_object_or_404(Movie, id=movie_id)
+        movie = get_object_or_404(Movie, api_id=movie_id)
         user_favorites.fav_movies.remove(movie)
         return Response({'message':'Movie removed from favorites'}, status=204)
 
@@ -50,7 +50,7 @@ class ShowManager(APIView):
 
     def get(self,request, show_id=None):
         if show_id is not None:
-            show = get_object_or_404(Show, id=show_id)
+            show = get_object_or_404(Show, api_id=show_id)
             serializer = ShowDetailSerializer(show)
             return Response(serializer.data, status=s.HTTP_200_OK)
     def post(self, request, show_id=None):
@@ -71,7 +71,7 @@ class ShowManager(APIView):
     
     def delete(self, request, show_id=None):
         user_favorites= Favorites.objects.get(specific_user=request.user)
-        show = get_object_or_404(Show, id=show_id)
+        show = get_object_or_404(Show, api_id=show_id)
         user_favorites.fav_shows.remove(show)
         return Response({'message':'Show removed from favorites'}, status=204)
 

@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from favorites_app.views import PublicPopularMovies, PublicPopularShows, PublicMovieDetail, PublicShowDetail
-
+from django.http import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('user_app.urls')),
     path('favorites/', include('favorites_app.urls')),
+    
+    path("", lambda request: HttpResponse("API is running")),
     
     #for the lurkers
     path('movies/popular/', PublicPopularMovies.as_view()),

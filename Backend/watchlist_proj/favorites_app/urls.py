@@ -1,8 +1,10 @@
 from django.urls import path
-from .views import MovieManager, ShowManager, FaveMovieList, FaveShowList
+from .views import MovieManager, ShowManager, FaveMovieList, FaveShowList, UserFavorites
 
 urlpatterns = [
     # path('shows/<int:show_id>/', PublicShowDetail.as_view()),
+    # user favorites
+    path("", UserFavorites.as_view()),
 
     # Movies
     
