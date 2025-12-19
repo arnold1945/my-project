@@ -206,3 +206,26 @@ class PublicShowDetail(APIView):
         }
 
         return Response(show, status=s.HTTP_200_OK)
+
+# user favorites :(
+# *****
+class UserFavorites(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        
+        favorites, _ = Favorites.objects.get_or_create(
+            specific_user= request.user
+        )
+        movies = MovieListSerializer(
+            favorites.fav_movies.all(), many=True
+        ).data
+        
+        shows = ShowListSerializer(
+            favorites.fav_shows.all(), many=True
+        ).data
+        
+        return Response({
+            "movies": movies,
+            "shows": shows
+        })

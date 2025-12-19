@@ -13,6 +13,6 @@ class Show(models.Model):
 
 class Favorites(models.Model):
     
-    specific_user = models.OneToOneField(Client, on_delete=models.CASCADE, default=None)
+    specific_user = models.OneToOneField(Client, on_delete=models.CASCADE, related_name="favorites")
     fav_movies = models.ManyToManyField(Movie, blank=True)
     fav_shows = models.ManyToManyField(Show, blank=True)
