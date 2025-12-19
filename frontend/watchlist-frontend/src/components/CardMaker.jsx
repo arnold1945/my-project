@@ -11,6 +11,24 @@ export default function CardMaker({ cardData }) {
 
     return (
         <Card>
+            {cardData && inFavorites && (
+                !inFavorites(cardData) ? (
+                    <Button
+                        onClick={() => addToFavorites(cardData)}
+                        variant="primary"
+                        disabled={fave.length >= 10}
+                    >
+                        Add to Favorites
+                    </Button>
+                ) : (
+                    <Button
+                        onClick={() => removeFromFavorites(cardData)}
+                        variant="secondary"
+                    >
+                        Remove From Favorites
+                    </Button>
+                )
+            )}
             <Card.Img
                 variant="top"
                 src={poster}
@@ -24,23 +42,8 @@ export default function CardMaker({ cardData }) {
 
             </Card.Body>
 
-            {!inFavorites(cardData) ? (
-                <Button className="fave-button"
-                    onClick={() => addToFavorites(cardData)}
-                    variant="primary"
-                    disabled={fave.length >= 10}>
-                    Add to Favorites
-                </Button>
-            ) : (
-                <Button className="fave-button"
+            
 
-                    onClick={() => removeFromFavorites(cardData)}
-                    variant="secondary"
-                >
-                    Remove From Favorites
-                </Button>
-
-            )}
         </Card>
     )
 }
