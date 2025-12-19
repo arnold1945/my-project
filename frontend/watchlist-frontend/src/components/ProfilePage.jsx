@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function ProfilePage() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, user } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,6 +15,7 @@ export default function ProfilePage() {
     return (
         <div>
             <h1>MY PROFILE PAGE</h1>
+            <h2>WELCOME {user?.email}</h2>
             
         </div>
     )

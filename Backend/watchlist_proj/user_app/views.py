@@ -66,3 +66,12 @@ class Info(UserPermission):
             }, status=s.HTTP_200_OK)
         else:
             return Response("not a user", status=s.HTTP_404_NOT_FOUND)
+
+# user
+class MeView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = ClientSerializer(request.user)
+        return Response(serializer.data)
