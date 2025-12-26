@@ -1,43 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useOutletContext } from "react-router-dom";
-
+import CardMaker from "./CardMaker";
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-
-    // fetching from backend
     const getMovies = async () => {
-      try{
-        const response1 = await axios.get(
+      try {
+        const response = await axios.get(
           "http://127.0.0.1:8000/movies/popular/"
         );
-        setMovies(response1.data)
+        setMovies(response.data);
       } catch (err) {
         console.error("Error getting movies from backend", err);
-
       }
     };
     getMovies();
   }, []);
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h1>POPULAR MOVIES</h1>
+    <div style={{ padding: "20px" }}>
+      <h1 style={{ textAlign: "center" }}>POPULAR MOVIES</h1>
 
-      <ul>
+     
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+          gap: "20px",
+        }}
+      >
         {movies.map((movie) => (
-          <li key={movie.id}>
-            {/* setting the titles as hyperlinks */}
-            <Link to ={`/movies/${movie.id}`}>{movie.title} ({movie.year})</Link>
-          </li>
+          <Link
+            key={movie.id}
+            to={`/movies/${movie.id}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <CardMaker cardData={movie} />
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
-  )
-
-
+  );
 }

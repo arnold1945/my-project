@@ -10,6 +10,17 @@ import { useAuth } from "./context/AuthContext";
 function App() {
   const { isAuthenticated, token } = useAuth();
   const [fave, setFave] = useState([]);
+
+  // xx
+  const normalizePoster = (item) => ({
+    ...item,
+    poster:
+      item.poster ||
+      item.poster_path ||
+      item.image?.original ||
+      item.image?.medium ||
+      null,
+  });
   
   const inFavorites = (item) =>
     fave.some((f) => f.title === item.title);
@@ -30,6 +41,7 @@ function App() {
       headers: { Authorization: `Token ${token}` },
     });
     setFave([...res.data.movies, ...res.data.shows]);
+   
   };
 
   const removeFromFavorites = async (item) => {
@@ -46,6 +58,7 @@ function App() {
       headers: { Authorization: `Token ${token}` },
     });
     setFave([...res.data.movies, ...res.data.shows]);
+  
   };
 
 
@@ -65,6 +78,8 @@ function App() {
           ...res.data.movies,
           ...res.data.shows,
         ]);
+        
+
       })
       .catch(() => setFave([]));
   }, [isAuthenticated, token]);
