@@ -1,6 +1,9 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from rest_framework.authtoken.models import Token
-from .models import Client
+from .models import Client, Profile
+from rest_framework import serializers
+
+
 
 
 class ClientSerializer(ModelSerializer):
@@ -20,4 +23,9 @@ class ClientSerializer(ModelSerializer):
             password=validated_data['password'],
         )
         return user
+    
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields=['id', 'first_name', 'last_name', 'age', 'bio']
     
