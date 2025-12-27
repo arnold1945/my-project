@@ -234,3 +234,45 @@ class UserFavorites(APIView):
             "movies": movies,
             "shows": shows
         })
+
+# fetching movies from 3rdd party api source
+
+class PublicMovieSearch(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        query = request.query_params.get("q", "").strip()
+
+        if not query:
+            return Response([])
+
+        url = "https://api.themoviedb.org/3/search/movie"
+        params = {
+            "api_key": settings.MOVIES_API_KEY,
+            "query": query,
+            "include_adult": False,
+            "language": "en-US",
+            "page": 1,
+        }
+
+        r = requests.get(url, params=params, timeout=5)
+
+        if r.status_code != 200:
+            return Response({"error": "TMDB request failed"}, status=502)
+
+        data = r.json().get("results", [])
+
+        # normalize response
+        results = [
+            {
+                "api_id": m["id"],
+                "title": m["title"],
+                "year": m.get("release_date", "")[:4],
+                "media_type": "movie",
+                "poster_path": m.get("poster_path"),
+            }
+            for m in data
+        ]
+
+        return Response(results)
