@@ -184,6 +184,8 @@ class PublicShowDetail(APIView):
 
     def get(self, request, show_id):
         url = f"https://api.tvmaze.com/shows/{show_id}"
+        
+
         response = requests.get(
             url
         )
@@ -210,6 +212,8 @@ class PublicShowDetail(APIView):
         }
 
         return Response(show, status=s.HTTP_200_OK)
+
+
 
 # user favorites :(
 # *****
@@ -276,3 +280,80 @@ class PublicMovieSearch(APIView):
         ]
 
         return Response(results)
+    
+# for shows api search
+
+
+class PublicShowSearch(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        query = request.query_params.get("q", "").strip()
+
+        if not query:
+            return Response([], status=s.HTTP_200_OK)
+
+        url = "https://api.themoviedb.org/3/search/tv"
+        params = {
+            "api_key": settings.MOVIES_API_KEY,
+            "query": query,
+            "language": "en-US",
+            "page": 1,
+        }
+
+        try:
+            r = requests.get(url, params=params, timeout=5)
+            r.raise_for_status()
+        except requests.RequestException:
+            return Response(
+                {"error": "TMDB request failed"},
+                status=s.HTTP_502_BAD_GATEWAY
+            )
+
+        data = r.json().get("results", [])
+
+        results = [
+            {
+                "api_id": s["id"],
+                "title": s["name"],                     
+                "year": s.get("first_air_date", "")[:4], 
+                "media_type": "show",
+                "poster_path": s.get("poster_path"),
+            }
+            for s in data
+        ]
+
+        return Response(results, status=s.HTTP_200_OK)
+
+# api connection
+
+class ResolveShowID(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, tmdb_id):
+        url = f"https://api.themoviedb.org/3/tv/{tmdb_id}/external_ids"
+        params = {
+            "api_key": settings.MOVIES_API_KEY
+        }
+
+        try:
+            r = requests.get(url, params=params, timeout=5)
+            r.raise_for_status()
+        except requests.RequestException:
+            return Response(
+                {"error": "TMDB external ID lookup failed"},
+                status=s.HTTP_502_BAD_GATEWAY
+            )
+
+        data = r.json()
+        tvmaze_id = data.get("tvmaze_id")
+
+        if not tvmaze_id:
+            return Response(
+                {"error": "No TVMaze ID found for this show"},
+                status=s.HTTP_404_NOT_FOUND
+            )
+
+        return Response({"tvmaze_id": tvmaze_id}, status=s.HTTP_200_OK)

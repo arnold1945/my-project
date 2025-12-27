@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from favorites_app.views import PublicPopularMovies, PublicPopularShows, PublicMovieDetail, PublicShowDetail, PublicMovieSearch
+from favorites_app.views import PublicPopularMovies, PublicPopularShows, PublicMovieDetail, PublicShowDetail, PublicMovieSearch, PublicShowSearch, ResolveShowID
 from django.http import HttpResponse
 
 urlpatterns = [
@@ -32,6 +32,9 @@ urlpatterns = [
     path('movies/<int:movie_id>/', PublicMovieDetail.as_view()),
     path('shows/<int:show_id>/', PublicShowDetail.as_view()),
     
-    # search the 3rd party api db for movies and stuff
+    # search the 3rd party api db for movies and shows
     path("movies/search/", PublicMovieSearch.as_view()),
+    path('shows/search/', PublicShowSearch.as_view()),
+    
+
 ]

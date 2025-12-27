@@ -18,10 +18,17 @@ export default function NavBar() {
 
     const timeout = setTimeout(async () => {
       try {
-        const res = await axios.get(
-          `http://127.0.0.1:8000/movies/search/?q=${query}`
-        );
-        setResults(res.data);
+        const [moviesRes, showsRes] = await Promise.all([
+          axios.get(`http://127.0.0.1:8000/movies/search/?q=${query}`),
+          axios.get(`http://127.0.0.1:8000/shows/search/?q=${query}`),
+        ]);
+
+        const combinedResults = [
+          ...moviesRes.data,
+          ...showsRes.data,
+        ];
+
+        setResults(combinedResults);
         setShowDropdown(true);
       } catch (err) {
         console.error("Search failed", err);
@@ -60,7 +67,7 @@ export default function NavBar() {
         <div style={{ position: "relative" }}>
           <input
             type="text"
-            placeholder="Search movies..."
+            placeholder="Search movies and shows..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             style={{
@@ -90,11 +97,28 @@ export default function NavBar() {
               {results.map((movie) => (
                 <div
                   key={movie.api_id}
-                  onClick={() => {
+                  onClick={async () => {
                     setQuery("");
                     setShowDropdown(false);
-                    navigate(`/movies/${movie.api_id}`);
+
+                    // Movies: unchanged
+                    if (movie.media_type === "movie") {
+                      navigate(`/movies/${movie.api_id}`);
+                      return;
+                    }
+
+                    // Shows: resolve TMDB -> TVMaze
+                    try {
+                      navigate(`/shows/${movie.api_id}`);
+
+                    } catch (err) {
+                      console.error("Failed to resolve show ID", err);
+                    }
                   }}
+
+
+
+
                   style={{
                     display: "flex",
                     gap: "10px",
@@ -111,6 +135,11 @@ export default function NavBar() {
                   )}
                   <div>
                     <div style={{ fontWeight: "600" }}>{movie.title}</div>
+                    <div style={{ fontSize: "11px", color: "#888" }}>
+                      {movie.media_type === "movie" ? "Movie" : "TV Show"}
+                    </div>
+
+
                     <div style={{ fontSize: "12px", color: "#555" }}>
                       {movie.year}
                     </div>
