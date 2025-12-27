@@ -325,35 +325,3 @@ class PublicShowSearch(APIView):
         ]
 
         return Response(results, status=s.HTTP_200_OK)
-
-# api connection
-
-class ResolveShowID(APIView):
-    authentication_classes = []
-    permission_classes = []
-
-    def get(self, request, tmdb_id):
-        url = f"https://api.themoviedb.org/3/tv/{tmdb_id}/external_ids"
-        params = {
-            "api_key": settings.MOVIES_API_KEY
-        }
-
-        try:
-            r = requests.get(url, params=params, timeout=5)
-            r.raise_for_status()
-        except requests.RequestException:
-            return Response(
-                {"error": "TMDB external ID lookup failed"},
-                status=s.HTTP_502_BAD_GATEWAY
-            )
-
-        data = r.json()
-        tvmaze_id = data.get("tvmaze_id")
-
-        if not tvmaze_id:
-            return Response(
-                {"error": "No TVMaze ID found for this show"},
-                status=s.HTTP_404_NOT_FOUND
-            )
-
-        return Response({"tvmaze_id": tvmaze_id}, status=s.HTTP_200_OK)

@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from favorites_app.views import PublicPopularMovies, PublicPopularShows, PublicMovieDetail, PublicShowDetail, PublicMovieSearch, PublicShowSearch, ResolveShowID
+from favorites_app.views import PublicPopularMovies, PublicPopularShows, PublicMovieDetail, PublicShowDetail, PublicMovieSearch, PublicShowSearch
 from django.http import HttpResponse
 
 urlpatterns = [
