@@ -21,9 +21,14 @@ function App() {
       item.image?.medium ||
       null,
   });
-  
+
   const inFavorites = (item) =>
-    fave.some((f) => f.title === item.title);
+    fave.some(
+      (f) =>
+        f.api_id === item.api_id &&
+        f.media_type === item.media_type
+    );
+
   const addToFavorites = async (item) => {
     const type = item.media_type
 
@@ -41,7 +46,7 @@ function App() {
       headers: { Authorization: `Token ${token}` },
     });
     setFave([...res.data.movies, ...res.data.shows]);
-   
+
   };
 
   const removeFromFavorites = async (item) => {
@@ -58,7 +63,7 @@ function App() {
       headers: { Authorization: `Token ${token}` },
     });
     setFave([...res.data.movies, ...res.data.shows]);
-  
+
   };
 
 
@@ -78,7 +83,7 @@ function App() {
           ...res.data.movies,
           ...res.data.shows,
         ]);
-        
+
 
       })
       .catch(() => setFave([]));
