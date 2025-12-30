@@ -9,7 +9,7 @@ export default function CardMaker({ cardData }) {
 
   const { title, year, overview } = cardData || {};
 
-  
+
   const poster =
     cardData?.poster ||
     cardData?.poster_path ||
@@ -25,53 +25,56 @@ export default function CardMaker({ cardData }) {
 
 
 
-return (
-  <Card className="p-3">
-    
-    {cardData && inFavorites && (
-      !inFavorites(cardData) ? (
-        <Button
-          onClick={() => addToFavorites(cardData)}
-          variant="primary"
-          disabled={fave.length >= 10}
-          className="mb-3"
-        >
-          Add to Favorites
-        </Button>
-      ) : (
-        <Button
-          onClick={() => removeFromFavorites(cardData)}
-          variant="secondary"
-          className="mb-3"
-        >
-          Remove From Favorites
-        </Button>
-      )
-    )}
+  return (
+    <Card className="p-3">
 
-    
-    <div className="d-flex align-items-start gap-3">
-     
-      <Card.Img
-        src={posterUrl}
-        style={{ width: "150px", height: "auto" }}
-      />
+      {cardData && inFavorites && (
+        !inFavorites(cardData) ? (
+          <Button
+            onClick={() => addToFavorites(cardData)}
+            variant="primary"
+            disabled={fave.length >= 10}
+            className="mb-3"
+          >
+            Add to Favorites
+          </Button>
+        ) : (
+          <Button
+            onClick={() => removeFromFavorites(cardData)}
+            variant="secondary"
+            className="mb-3"
+          >
+            Remove From Favorites
+          </Button>
+        )
+      )}
 
-      
-      <Card.Body className="p-0">
-        <Card.Title>
-          <h3 className="mb-1">{title}</h3>
-        </Card.Title>
 
-        <Card.Text className="text-muted mb-2">
-          {year}
-        </Card.Text>
+      <div className="d-flex align-items-start gap-3">
 
-        <Card.Text
-          dangerouslySetInnerHTML={{ __html: overview }}
+        <Card.Img
+          src={posterUrl}
+          style={{ width: "150px", flexShrink: 0 }}
         />
-      </Card.Body>
-    </div>
-  </Card>
-);
+
+
+        <Card.Body className="p-0 w-100">
+          <Card.Title className="w-100">
+            <div className="card-title-box">
+              {title}
+            </div>
+          </Card.Title>
+
+
+          <Card.Text className="text-muted mb-2">
+            {year}
+          </Card.Text>
+
+          <Card.Text
+            dangerouslySetInnerHTML={{ __html: overview }}
+          />
+        </Card.Body>
+      </div>
+    </Card>
+  );
 }

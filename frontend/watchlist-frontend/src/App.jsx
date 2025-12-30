@@ -4,6 +4,8 @@ import NavBar from './components/NavBar';
 import { useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "./context/AuthContext";
+import "./App.css";
+
 
 
 
